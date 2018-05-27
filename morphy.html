@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Morphy Richards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+        @font-face {
+            font-family: OpenSans-Bold;
+            src: url('./OpenSans/OpenSans-Bold.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: OpenSans-BoldItalic;
+            src: url('./OpenSans/OpenSans-BoldItalic.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: OpenSans-CondBold;
+            src: url('./OpenSans/OpenSans-CondBold.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: OpenSans-Regular;
+            src: url('./OpenSans/OpenSans-Regular.ttf') format('truetype');
+        }
+
+        html {
+            font-family: OpenSans-Regular
+        }
+
+        .navbar {
+            position: relative;
+            min-height: 50px;
+            border: 1px solid transparent;
+            background-color: #333;
+            color: #fff
+        }
+
+        .navbar-brand {
+            font-size: 18px;
+        }
+
+        .navbar-brand, nav > ul > li {
+            float: left;
+            padding: 15px 15px;
+            line-height: 20px;
+        }
+
+        .navbar-toggle {
+            float: right;
+            padding: 5px;
+            line-height: 1;
+            display: none;
+        }
+
+        .navbar-toggle-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .navbar-toggle-icon {
+            width: 25px;
+            border: 2px solid #efefef;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            border-radius: 5px;
+        }
+
+        nav > ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        nav > ul > li {
+            position: relative;
+            display: block;
+        }
+
+        nav > ul > li > a {
+            color: #fff;
+            font-size: 13px;
+            padding: 15px 0px 15px 0px;
+        }
+
+        nav > ul > li > a:visited {
+            color: #fff;
+        }
+
+        nav > ul > li:hover {
+            background-color: #000;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .caret {
+            display: inline-block;
+            margin-left: 5px;
+            border-top: 7px solid;
+            border-right: 7px solid transparent;
+            border-left: 7px solid transparent;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            z-index: 1000;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            padding: 5px 0;
+            margin: 2px 0 0;
+            min-width: 85%;
+            top: 100%;
+        }
+
+        .dropdown-menu > li > a {
+            display: block;
+            padding: 0px 15px 0px 15px;
+            text-decoration: none;
+        }
+
+        .dropdown-menu > li > a:visited {
+            color: #000;
+        }
+
+        .dropdown-menu > li > a:hover {
+            background-color: grey;
+        }
+
+        .carousel-item {
+            display: none;
+        }
+
+        .carousel-item.active {
+            display: block !important;
+        }
+
+        /* The dots/bullets/indicators */
+        .carousel-dot {
+            position: absolute;
+            width: 100%;
+            bottom: 15px;
+            text-align: center;
+        }
+
+        .carousel-dot > .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .carousel-dot > .dot:hover, .carousel-dot > .dot.active {
+            background-color: red;
+        }
+
+        .banner {
+            display: flex;
+            display: -ms-flex;
+            display: -moz-flex;
+            margin: 20px;
+            background-color: #efefef;
+            border-radius: 50px;
+            height: 400px;
+        }
+
+        .banner > .banner-link {
+            width: 100%;
+            display: flex;
+            display: -ms-flex;
+            display: -moz-flex;
+            text-decoration: none;
+        }
+
+        .banner-info {
+            color: #6d6d6d;
+        }
+
+        .banner-half-col {
+            width: 50%;
+        }
+
+        .banner-left-curve {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+
+        .banner-right-curve {
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+
+        .full-height {
+            height: 100%;
+        }
+
+        .font-70 {
+            font-size: 70px;
+        }
+
+        .font-100 {
+            font-size: 100px;
+        }
+
+        .font-15 {
+            font-size: 15px;
+        }
+
+        .line-height-sticky {
+            line-height: 0.5;
+        }
+
+        .banner-info-description {
+            padding: 10px 10px 10px 20px;
+        }
+
+        .banner-info-heading {
+            padding: 100px 20px 20px 20px;
+        }
+
+        .content-container-block {
+            margin: 30px 40px;
+            display: flex;
+            display: -ms-flex;
+            display: -moz-flex;
+            min-height: 400px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-container-block .content-container {
+            width: 24%;
+            height: 100%;
+            margin: 5px;
+            background-color: #efefef;
+            border-radius: 20px;
+            padding: 15px;
+        }
+
+        .content-add-to-compare {
+            margin-bottom: 5px;
+        }
+
+        .content-rating .content-rating-icon {
+            color: #c6c6c6;
+        }
+
+        .content-rating .checked {
+            color: orange;
+        }
+
+        .content-original-price {
+            text-decoration: line-through;
+        }
+
+        .content-discounted-price {
+            color: #e60d2e;
+            margin-left: 5px;
+        }
+
+        .add-to-cart-button {
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .add-to-cart-button button {
+            padding: 5px 15px;
+            background-color: #3d3a3a;
+            color: white;
+            cursor: pointer;
+        }
+
+        .previous, .next {
+            font-size: 40px;
+            width: 2%;
+            cursor: pointer;
+        }
+
+        input[type=checkbox] {
+            cursor: pointer;
+            width: 15px;
+            height: 15px;
+            margin: 3px 0px;
+            vertical-align: middle;
+            position: relative;
+            bottom: 1px;
+        }
+
+        .color-black {
+            color: #000;
+        }
+
+        h4 {
+            margin: 5px;
+        }
+
+        /* On screens that are 992px wide or less*/
+        @media screen and (max-width: 1100px) {
+            .font-70 {
+                font-size: 50px;
+            }
+
+            .font-100 {
+                font-size: 75px;
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            .navbar > .navigation {
+                display: block !important;
+            }
+        }
+
+        /* On screens that are 992px wide or less */
+        @media screen and (max-width: 992px) {
+            .navbar > .navigation {
+                display: none;
+                background-color: black;
+                position: absolute;
+                z-index: 1;
+                top: 50px;
+                right: -1px;
+                padding: 0;
+            }
+
+            .navbar-brand, nav > ul > li {
+                float: none;
+            }
+
+            .navbar-toggle {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+
+            .font-70 {
+                font-size: 40px;
+            }
+
+            .font-100 {
+                font-size: 60px;
+            }
+
+            .content-container-block #content-4 {
+                display: none;
+            }
+
+            .content-container-block .content-container {
+                width: 32%;
+            }
+        }
+
+        /* On screens that are 750px wide or less */
+        @media screen and (max-width: 750px) {
+            .banner {
+                display: block;
+                height: auto;
+            }
+
+            .banner > .banner-link {
+                display: block;
+            }
+
+            .banner-half-col {
+                width: 100%;
+            }
+
+            .banner-info-heading {
+                padding: 20px 20px 20px 30px;
+            }
+
+            .banner-info-description {
+                padding: 5px 10px 20px 30px;
+            }
+
+            .banner-left-curve {
+                border-top-left-radius: 50px;
+                border-top-right-radius: 50px;
+                border-bottom-left-radius: 0px;
+            }
+
+            .banner-right-curve {
+                border-top-right-radius: 0px;
+                border-bottom-left-radius: 50px;
+                border-bottom-right-radius: 50px;
+            }
+
+            .content-container-block #content-3 {
+                display: none;
+            }
+
+            .content-container-block .content-container {
+                width: 48%;
+            }
+        }
+
+        /* On screens that are 660px wide or less*/
+        @media screen and (max-width: 660px) {
+            .navbar-brand {
+                float: none;
+                text-align: center;
+            }
+
+            .navbar-toggle {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+
+        /* On screens that are 550px wide or less */
+        @media screen and (max-width: 550px) {
+            .content-container-block #content-2 {
+                display: none;
+            }
+
+            .content-container-block .content-container {
+                width: 80%;
+            }
+        }
+
+        /* On screens that are 400px wide or less */
+        @media screen and (max-width: 400px) {
+
+            html {
+                font-size: 15px;
+            }
+
+            .font-70 {
+                font-size: 20px;
+            }
+
+            .font-100 {
+                font-size: 30px;
+            }
+
+            .banner-info-heading {
+                padding: 10px 10px 10px 20px;
+            }
+
+            .banner-info-description {
+                padding: 2px 10px 20px 20px;
+            }
+        }
+
+
+    </style>
+
+    <script>
+
+        var slideIndex = 0;
+        document.addEventListener("DOMContentLoaded", function () {
+            executeScript();
+        });
+
+        function executeScript() {
+            createCarouselDots();
+            setInterval(function () {
+                startCarouselSlide(slideIndex + 1);
+            }, 3000);
+        }
+
+        function setFunctionClosure(i) {
+            return function () {
+                return carouselSlide(i);
+            }
+        }
+
+        function createCarouselDots() {
+            var d = document.createDocumentFragment(), elems = document.getElementsByClassName("carousel-item");
+            for (var i = 0; i < elems.length; i++) {
+                var span = document.createElement('span');
+                span.className = "dot";
+                span.onclick = setFunctionClosure(i);
+                d.appendChild(span);
+            }
+            document.getElementsByClassName("carousel-dot")[0].appendChild(d);
+        }
+
+        function startCarouselSlide(n) {
+            if (slideIndex === n) {
+                return;
+            }
+            slideIndex = n;
+            setCarouselItems(n);
+        }
+
+        function setCarouselItems(index) {
+            var slides = document.getElementsByClassName("carousel-item"),
+                dots = document.querySelectorAll(".carousel-dot > .dot");
+            if (index >= slides.length) {
+                slideIndex = index = 0;
+            }
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+                slides[i].className = slides[i].className.replace(" active", "");
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            if (slides && dots) {
+                slides[index].style.display = "block";
+                dots[index].className += " active";
+            }
+        }
+
+        function carouselSlide(currentIndex) {
+            setCarouselItems(currentIndex);
+        }
+
+        function toggleDropDown(id) {
+            var dropdownElements = document.querySelectorAll('.dropdown .dropdown-menu');
+            var currentElement = document.querySelector('.dropdown-menu#' + id);
+
+            for (var i = 0; i < dropdownElements.length; i++) {
+                if (id !== dropdownElements[i].id) {
+                    dropdownElements[i].style.display = "none";
+                }
+            }
+            currentElement.style.display !== 'block' ? currentElement.style.display = 'block' : currentElement.style.display = 'none';
+        }
+
+        function openMenu(id) {
+            var element = document.getElementById(id);
+            element.style.display !== 'block' ? element.style.display = 'block' : element.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+<div>
+    <nav class="navbar">
+        <div class="navbar-heading">
+            <div class="navbar-brand">Morphy richards</div>
+        </div>
+        <div class="navbar-toggle">
+            <button class="navbar-toggle-button" onclick="openMenu('menu')">
+                <div class="navbar-toggle-icon"></div>
+                <div class="navbar-toggle-icon"></div>
+                <div class="navbar-toggle-icon"></div>
+            </button>
+        </div>
+        <ul class="navigation" id="menu">
+            <li class="dropdown">
+                <a onclick="toggleDropDown('kitchenAppliances')">KITCHEN APPLIANCES <span class="caret"></span></a>
+                <ul class="dropdown-menu" id="kitchenAppliances">
+                    <li><a href="#">Page 1-1</a></li>
+                    <li><a href="#">Page 1-2</a></li>
+                    <li><a href="#">Page 1-3</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a onclick="toggleDropDown('homeAppliances')">HOME APPLIANCES <span class="caret"></span></a>
+                <ul class="dropdown-menu" id="homeAppliances">
+                    <li><a href="#">Page 1-1</a></li>
+                    <li><a href="#">Page 1-2</a></li>
+                    <li><a href="#">Page 1-3</a></li>
+                </ul>
+            </li>
+            <li><a href="#support">SUPPORT</a></li>
+            <li><a href="#register/Login">REGISTER/LOGIN</a></li>
+        </ul>
+    </nav>
+
+    <div class="carousel" style="position: relative;">
+        <div class="carousel-item active">
+            <a href="#">
+                <img src="images/image1.jpg" height="auto" width="100%"/>
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="#">
+                <img src="images/image2.jpg" height="auto" width="100%"/>
+            </a>
+        </div>
+
+        <div class="carousel-dot">
+        </div>
+    </div>
+
+
+    <div class="banner">
+        <a href="#" class="banner-link">
+            <div class="banner-half-col">
+                <img src="images/image3.jpg" height="auto" width="100%" class="banner-left-curve full-height"/>
+            </div>
+            <div class="banner-half-col banner-right-curve banner-info">
+                <div class="banner-info-heading">
+                    <div class="font-70">
+                        BREAKFAST &
+                    </div>
+                    <div class="font-100 line-height-sticky">SNACKING</div>
+                </div>
+                <div class="banner-info-description">With feature that are carefully crafted for every kitchen
+                    connoisseur, the Prism range brings a lot
+                    more than just great looks to the table
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="content-container-block">
+        <div class="previous">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </div>
+        <div class="content-container" id="content-1">
+            <div class="content-add-to-compare">
+                <input type="checkbox"/>
+                <label class="font-15"> Add to Compare</label>
+            </div>
+            <a href="#" class="color-black">
+                <div>
+                    <img src="images/image4.jpg" height="auto" width="100%"/>
+                </div>
+
+                <div class="content-block">
+                    <div class="content-heading">
+                        <h4>Morphy Richards Stainless Steel Jug</h4>
+                    </div>
+                    <div class="content-rating">
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon"></span>
+                        <span class="rating">4/5</span>
+                    </div>
+                    <div class="content-price">
+                    <span class="content-price-label">
+                        Price :
+                    </span>
+                        <span class="content-original-price">
+                        <span>₹</span><span>7,999.00</span>
+                    </span>
+                        <span class="content-discounted-price">
+                        <span> ₹</span><span>6,999.00</span>
+                    </span>
+                    </div>
+                </div>
+            </a>
+            <div class="add-to-cart-button">
+                <button> Add to Cart</button>
+            </div>
+        </div>
+        <div class="content-container" id="content-2">
+            <div class="content-add-to-compare">
+                <input type="checkbox"/>
+                <label class="font-15"> Add to Compare</label>
+            </div>
+            <a href="#" class="color-black">
+                <div>
+                    <img src="images/image4.jpg" height="auto" width="100%"/>
+                </div>
+
+                <div class="content-block">
+                    <div class="content-heading">
+                        <h4>Morphy Richards Stainless Steel Jug</h4>
+                    </div>
+                    <div class="content-rating">
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon"></span>
+                        <span class="rating">4/5</span>
+                    </div>
+                    <div class="content-price">
+                    <span class="content-price-label">
+                        Price :
+                    </span>
+                        <span class="content-original-price">
+                        <span>₹</span><span>7,999.00</span>
+                    </span>
+                        <span class="content-discounted-price">
+                        <span> ₹</span><span>6,999.00</span>
+                    </span>
+                    </div>
+                </div>
+            </a>
+            <div class="add-to-cart-button">
+                <button> Add to Cart</button>
+            </div>
+        </div>
+        <div class="content-container" id="content-3">
+            <div class="content-add-to-compare">
+                <input type="checkbox"/>
+                <label class="font-15"> Add to Compare</label>
+            </div>
+            <a href="#" class="color-black">
+                <div>
+                    <img src="images/image4.jpg" height="auto" width="100%"/>
+                </div>
+
+                <div class="content-block">
+                    <div class="content-heading">
+                        <h4>Morphy Richards Stainless Steel Jug</h4>
+                    </div>
+                    <div class="content-rating">
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon"></span>
+                        <span class="rating">4/5</span>
+                    </div>
+                    <div class="content-price">
+                    <span class="content-price-label">
+                        Price :
+                    </span>
+                        <span class="content-original-price">
+                        <span>₹</span><span>7,999.00</span>
+                    </span>
+                        <span class="content-discounted-price">
+                        <span> ₹</span><span>6,999.00</span>
+                    </span>
+                    </div>
+                </div>
+            </a>
+            <div class="add-to-cart-button">
+                <button> Add to Cart</button>
+            </div>
+        </div>
+        <div class="content-container" id="content-4">
+            <div class="content-add-to-compare">
+                <input type="checkbox"/>
+                <label class="font-15"> Add to Compare</label>
+            </div>
+            <a href="#" class="color-black">
+                <div>
+                    <img src="images/image4.jpg" height="auto" width="100%"/>
+                </div>
+
+                <div class="content-block">
+                    <div class="content-heading">
+                        <h4>Morphy Richards Stainless Steel Jug</h4>
+                    </div>
+                    <div class="content-rating">
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon checked"></span>
+                        <span class="fa fa-star content-rating-icon"></span>
+                        <span class="rating">4/5</span>
+                    </div>
+                    <div class="content-price">
+                    <span class="content-price-label">
+                        Price :
+                    </span>
+                        <span class="content-original-price">
+                        <span>₹</span><span>7,999.00</span>
+                    </span>
+                        <span class="content-discounted-price">
+                        <span> ₹</span><span>6,999.00</span>
+                    </span>
+                    </div>
+                </div>
+            </a>
+            <div class="add-to-cart-button">
+                <button> Add to Cart</button>
+            </div>
+        </div>
+        <div class="next">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </div>
+    </div>
+
+
+    <div style="position: relative; margin-bottom: 30px;">
+        <hr style="    margin: 0px 80px;"/>
+        <div style="position: absolute;position: absolute;
+    top: -20px;
+    right: 80px;">
+            <button style="width: 150px; background-color: #e60d2e;
+    padding: 10px;">View All
+            </button>
+        </div>
+    </div>
+
+    <div style="margin: 20px 0px; height: 500px; position: relative;">
+        <img src="images/image5.png" height="100%" width="100%">
+        <div style="position: absolute; font-size: 13px;
+     bottom: 15px;
+    left: 50%;
+    margin-left: -155px;">
+            <a href="" class="color-black" style="margin: 0px 15px">Submit your Recipe</a>
+            <span class="separation"> | </span>
+            <a href="" class="color-black" style="margin: 0px 15px">Explore Recipes</a>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
